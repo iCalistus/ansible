@@ -1,0 +1,20 @@
+---
+# DKIM and DMARC setup
+- name: Install opendkim and opendmarc
+  apt:
+    name:
+      - opendkim
+      - opendmarc
+    state: present
+
+- name: Generate DKIM keys (manual step)
+  debug:
+    msg: "Generate DKIM keys for each domain. See documentation."
+
+- name: Publish DKIM DNS record (manual step)
+  debug:
+    msg: "Publish DKIM public key in DNS. See documentation."
+
+- name: Publish DMARC DNS record (manual step)
+  debug:
+    msg: "Publish DMARC record in DNS. See documentation."

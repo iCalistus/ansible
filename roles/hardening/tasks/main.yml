@@ -1,0 +1,47 @@
+---
+# Security hardening tasks
+- name: Disable SSH root login
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#?PermitRootLogin\b'
+    line: 'PermitRootLogin no'
+  notify: Restart sshd
+
+- name: Disable SSH password authentication
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#?PasswordAuthentication\b'
+    line: 'PasswordAuthentication no'
+  notify: Restart sshd
+- name: Ensure /var/vmail permissions
+  file:
+    path: /var/vmail
+    owner: vmail
+    group: vmail
+    mode: '0700'
+    state: directory
+
+- name: Ensure DKIM private key permissions
+  file:
+    path: /var/lib/dkim
+    owner: amavis
+    group: amavis
+    mode: '0700'
+    state: directory
+
+- name: Ensure certbot secrets directory permissions
+  file:
+    path: /home/{{ mailserver_user }}/.secrets
+    owner: root
+    group: root
+    mode: '0700'
+    state: directory
+
+- name: Ensure certbot secrets permissions
+  file:
+    path: /home/{{ mailserver_user }}/.secrets/cloudflare.ini
+    owner: root
+    group: root
+    mode: '0600'
+    state: file
+

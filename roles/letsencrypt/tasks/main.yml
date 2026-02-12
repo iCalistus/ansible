@@ -1,0 +1,30 @@
+---
+# Let’s Encrypt with Cloudflare DNS
+- name: Install certbot and Cloudflare plugin
+  apt:
+    name:
+      - certbot
+      - python3-certbot-dns-cloudflare
+    state: present
+
+- name: Create Cloudflare credentials directory
+  file:
+    path: /home/{{ mailserver_user }}/.secrets
+    state: directory
+    mode: "0700"
+    owner: "{{ mailserver_user }}"
+    group: "{{ mailserver_user }}"
+
+- name: Create Cloudflare API token file
+  copy:
+    dest: /home/{{ mailserver_user }}/.secrets/cloudflare.ini
+    content: |
+      dns_cloudflare_api_token = {{ cf_api_token }}
+    mode: "0600"
+    owner: "{{ mailserver_user }}"
+    group: "{{ mailserver_user }}"
+
+- name: Obtain certificates (manual step)
+  debug:
+    msg: "Run certbot manually for DNS challenge. See documentation."
+# Optionally automate with expect or shell
