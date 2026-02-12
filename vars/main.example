@@ -6,4 +6,6 @@ mail_hostname: mail.example.com
 mail_domain: example.com
 iredmail_version: 1.6.8
 admin_email: admin@example.com
+
+# Username for the mailserver user (required by base_os role)
 mailserver_user: REPLACE_WITH_MAILSERVER_USERNAME
