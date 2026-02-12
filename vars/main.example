@@ -1,8 +1,9 @@
 ---
 # Main variables for mail deployment
+# NOTE: Secrets such as cf_api_token must be defined in vars/secrets.yml
+#       (see vars/secrets.example) and the real vars/secrets.yml must be gitignored.
 mail_hostname: mail.example.com
 mail_domain: example.com
 iredmail_version: 1.6.8
-cf_api_token: "CHANGEME"
 admin_email: admin@example.com
 mailserver_user: devops
