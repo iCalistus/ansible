@@ -1,5 +1,15 @@
 ---
 # Base OS preparation and hardening
+- name: Assert required variables are defined
+  ansible.builtin.assert:
+    that:
+      - new_user is defined
+      - new_user | length > 0
+      - new_user_public_key is defined
+      - new_user_public_key | length > 0
+    fail_msg: "Required variables 'new_user' and 'new_user_public_key' must be defined. Please check vars/main.example and vars/secrets.example for reference."
+    success_msg: "All required variables for base_os role are defined."
+
 - name: Set hostname
   hostname:
     name: "{{ mail_hostname }}"

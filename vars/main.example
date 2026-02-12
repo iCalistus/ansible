@@ -7,3 +7,6 @@ mail_domain: example.com
 iredmail_version: 1.6.8
 admin_email: admin@example.com
 mailserver_user: devops
+
+# User to be created on the server (required by base_os role)
+new_user: deployuser
