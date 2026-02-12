@@ -1,6 +1,6 @@
 ---
 # Base OS preparation and hardening
-- name: Assert required variables are defined
+- name: Assert new_user is defined
   ansible.builtin.assert:
     that:
       - new_user is defined
