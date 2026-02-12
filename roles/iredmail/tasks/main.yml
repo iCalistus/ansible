@@ -13,5 +13,15 @@
 
 - name: Run iRedMail installer (manual step)
   debug:
-    msg: "Run the iRedMail installer interactively: cd /root/iRedMail-{{ iredmail_version }} && bash iRedMail.sh"
-# Optionally automate with expect or document manual steps
+    msg: |
+      Run the iRedMail installer interactively by following these steps:
+      1. SSH into the target machine.
+      2. Navigate to the extracted directory: cd /root/iRedMail-{{ iredmail_version }}
+      3. Start the installer: bash iRedMail.sh
+      4. Follow the on-screen prompts to complete the installation.
+         - Accept the license agreement.
+         - Provide the domain name and admin password when prompted.
+         - Choose the desired components to install.
+      5. Verify the installation is successful.
+
+      Note: Ensure you have the necessary permissions and prerequisites installed before running the installer.
