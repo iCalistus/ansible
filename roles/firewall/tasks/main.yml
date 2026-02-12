@@ -21,8 +21,18 @@
 - name: Allow mail ports
   ufw:
     rule: allow
-    port: "25,587,465,110,995,143,993,80,443"
+    port: "{{ item }}"
     proto: tcp
+  loop:
+    - '25'
+    - '587'
+    - '465'
+    - '110'
+    - '995'
+    - '143'
+    - '993'
+    - '80'
+    - '443'
 
 - name: Enable UFW
   ufw:
