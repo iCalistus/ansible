@@ -1,0 +1,68 @@
+---
+# Base OS preparation and hardening
+- name: Set hostname
+  hostname:
+    name: "{{ mail_hostname }}"
+
+- name: Ensure /etc/hosts has FQDN
+  lineinfile:
+    path: /etc/hosts
+    line: "{{ ansible_host }} {{ mail_hostname }} mail"
+    state: present
+
+- name: Update apt cache and upgrade
+  apt:
+    update_cache: yes
+    upgrade: dist
+
+- name: Install base packages
+  apt:
+    name:
+      - curl
+      - wget
+      - gnupg
+      - lsb-release
+      - ca-certificates
+      - ufw
+      - fail2ban
+      - logrotate
+      - auditd
+    state: present
+
+- name: Install and enable chrony
+  apt:
+    name: chrony
+    state: present
+
+- name: Ensure chrony is running
+  service:
+    name: chrony
+    state: started
+    enabled: true
+
+- name: Set timezone to Africa/Lagos (GMT+1)
+  timezone:
+    name: Africa/Lagos
+
+# Task to create a new user
+- name: Create a new user
+  ansible.builtin.user:
+    name: "{{ new_user }}"
+    state: present
+    shell: /bin/bash
+
+# Task to add the user's public key to the server
+- name: Add authorized key for the new user
+  ansible.builtin.authorized_key:
+    user: "{{ new_user }}"
+    state: present
+    key: "{{ new_user_public_key }}"
+
+# Task to add the user to sudoers
+- name: Add user to sudoers
+  ansible.builtin.lineinfile:
+    path: /etc/sudoers
+    state: present
+    regexp: "^{{ new_user }}"
+    line: "{{ new_user }} ALL=(ALL) NOPASSWD:ALL"
+    validate: "visudo -cf %s"

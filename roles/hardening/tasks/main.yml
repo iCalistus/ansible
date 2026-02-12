@@ -1,0 +1,34 @@
+---
+# Security hardening tasks
+- name: SSH hardening
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#?(PermitRootLogin|PasswordAuthentication)'
+    line: "{{ item }}"
+  with_items:
+    - 'PermitRootLogin no'
+    - 'PasswordAuthentication no'
+  notify: Restart sshd
+
+- name: Ensure /var/vmail permissions
+  file:
+    path: /var/vmail
+    owner: vmail
+    group: vmail
+    mode: '0700'
+    state: directory
+
+- name: Ensure DKIM private key permissions
+  file:
+    path: /var/lib/dkim
+    owner: amavis
+    group: amavis
+    mode: '0700'
+    state: directory
+
+- name: Ensure certbot secrets permissions
+  file:
+    path: /root/.secrets/cloudflare.ini
+    mode: '0600'
+    state: file
+

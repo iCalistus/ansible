@@ -1,0 +1,17 @@
+---
+# Install and run iRedMail installer
+- name: Download iRedMail
+  get_url:
+    url: "https://github.com/iredmail/iRedMail/archive/refs/tags/{{ iredmail_version }}.tar.gz"
+    dest: "/root/iRedMail-{{ iredmail_version }}.tar.gz"
+
+- name: Extract iRedMail
+  unarchive:
+    src: "/root/iRedMail-{{ iredmail_version }}.tar.gz"
+    dest: /root/
+    remote_src: yes
+
+- name: Run iRedMail installer (manual step)
+  debug:
+    msg: "Run the iRedMail installer interactively: cd /root/iRedMail-{{ iredmail_version }} && bash iRedMail.sh"
+# Optionally automate with expect or document manual steps

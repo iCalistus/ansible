@@ -1,0 +1,19 @@
+---
+# Monitoring and log management
+- name: Install monitoring tools
+  apt:
+    name:
+      - logwatch
+      - goaccess
+    state: present
+
+- name: Ensure logrotate is present
+  apt:
+    name: logrotate
+    state: present
+
+- name: Verify logrotate config
+  command: logrotate -d /etc/logrotate.conf
+  register: logrotate_check
+  changed_when: false
+  ignore_errors: true

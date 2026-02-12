@@ -1,0 +1,8 @@
+---
+# Main variables for mail deployment
+mail_hostname: mail.example.com
+mail_domain: example.com
+iredmail_version: 1.6.8
+cf_api_token: "CHANGEME"
+admin_email: admin@example.com
+mailserver_user: devops

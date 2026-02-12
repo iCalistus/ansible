@@ -1,0 +1,35 @@
+---
+# Configure UFW firewall for mail server
+- name: Set UFW default policies
+  ufw:
+    state: enabled
+    policy: deny
+    direction: incoming
+
+- name: Set UFW default allow outgoing
+  ufw:
+    state: enabled
+    policy: allow
+    direction: outgoing
+
+- name: Allow SSH
+  ufw:
+    rule: allow
+    port: 22
+    proto: tcp
+
+- name: Allow mail ports
+  ufw:
+    rule: allow
+    port: "25,587,465,110,995,143,993,80,443"
+    proto: tcp
+
+- name: Enable UFW
+  ufw:
+    state: enabled
+
+- name: Show UFW status
+  command: ufw status verbose
+  register: ufw_status
+  changed_when: false
+  ignore_errors: true
