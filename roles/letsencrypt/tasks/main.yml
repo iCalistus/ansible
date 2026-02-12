@@ -32,5 +32,10 @@
   cron:
     name: "Renew Let's Encrypt certificates"
     user: root
+    minute: "0"
+    hour: "3"
+    day: "*"
+    month: "*"
+    weekday: "*"
     job: "certbot renew --quiet --renew-hook 'systemctl reload nginx'"
     state: present
