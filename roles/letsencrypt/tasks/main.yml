@@ -37,5 +37,5 @@
     day: "*"
     month: "*"
     weekday: "*"
-    job: "certbot renew --quiet --renew-hook 'systemctl reload nginx'"
+    job: "certbot renew --quiet --renew-hook 'systemctl reload {{ letsencrypt_web_server_service | default(\"nginx\") }}'"
     state: present
