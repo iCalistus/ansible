@@ -1,0 +1,15 @@
+---
+# Main playbook to deploy iRedMail stack on Ubuntu
+- hosts: mailservers
+  become: true
+  vars_files:
+    - vars/main.yml
+    - vars/secrets.yml  # DO NOT COMMIT THIS FILE
+  roles:
+    - base_os
+    - firewall
+    - iredmail
+    - letsencrypt
+    - dkim_dmarc
+    - monitoring
+    - hardening
