@@ -9,7 +9,7 @@
     - base_os
     - firewall
     - iredmail
-    - letsencrypt
+    # - letsencrypt
     - dkim_dmarc
     - monitoring
     - hardening

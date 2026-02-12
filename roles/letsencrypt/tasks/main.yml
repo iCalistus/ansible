@@ -27,4 +27,10 @@
 - name: Obtain certificates (manual step)
   debug:
     msg: "Run certbot manually for DNS challenge. See documentation."
-# Optionally automate with expect or shell
+
+- name: Schedule certificate renewal
+  cron:
+    name: "Renew Let's Encrypt certificates"
+    user: root
+    job: "certbot renew --quiet --renew-hook 'systemctl reload nginx'"
+    state: present
