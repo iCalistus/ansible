@@ -29,9 +29,19 @@
     mode: '0700'
     state: directory
 
+- name: Ensure certbot secrets directory permissions
+  file:
+    path: /home/{{ mailserver_user }}/.secrets
+    owner: root
+    group: root
+    mode: '0700'
+    state: directory
+
 - name: Ensure certbot secrets permissions
   file:
-    path: /root/.secrets/cloudflare.ini
+    path: /home/{{ mailserver_user }}/.secrets/cloudflare.ini
+    owner: root
+    group: root
     mode: '0600'
     state: file
 
