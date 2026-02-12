@@ -2,3 +2,8 @@ inventory
 secrets.yml
 ansible.cfg
 vars/main.yml
+
+# SSH keys
+id_rsa*
+*.pem
+*.key
