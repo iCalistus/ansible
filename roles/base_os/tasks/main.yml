@@ -1,5 +1,19 @@
 ---
 # Base OS preparation and hardening
+- name: Assert mailserver_user is defined
+  ansible.builtin.assert:
+    that:
+      - mailserver_user is defined
+      - mailserver_user | length > 0
+    fail_msg: "Required variable 'mailserver_user' must be defined and non-empty. Please check vars/main.example for reference."
+
+- name: Assert mailserver_user_public_key is defined
+  ansible.builtin.assert:
+    that:
+      - mailserver_user_public_key is defined
+      - mailserver_user_public_key | length > 0
+    fail_msg: "Required variable 'mailserver_user_public_key' must be defined and non-empty. Please check vars/secrets.example for reference."
+
 - name: Set hostname
   hostname:
     name: "{{ mail_hostname }}"
@@ -44,25 +58,25 @@
   timezone:
     name: Africa/Lagos
 
-# Task to create a new user
-- name: Create a new user
+# Task to create mailserver user
+- name: Create mailserver user
   ansible.builtin.user:
-    name: "{{ new_user }}"
+    name: "{{ mailserver_user }}"
     state: present
     shell: /bin/bash
 
 # Task to add the user's public key to the server
-- name: Add authorized key for the new user
+- name: Add authorized key for mailserver user
   ansible.builtin.authorized_key:
-    user: "{{ new_user }}"
+    user: "{{ mailserver_user }}"
     state: present
-    key: "{{ new_user_public_key }}"
+    key: "{{ mailserver_user_public_key }}"
 
 # Task to add the user to sudoers
-- name: Add user to sudoers
+- name: Add mailserver user to sudoers
   ansible.builtin.lineinfile:
     path: /etc/sudoers
     state: present
-    regexp: "^{{ new_user }}"
-    line: "{{ new_user }} ALL=(ALL) NOPASSWD:ALL"
+    regexp: "^{{ mailserver_user }}"
+    line: "{{ mailserver_user }} ALL=(ALL) NOPASSWD:ALL"
     validate: "visudo -cf %s"
